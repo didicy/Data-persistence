@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System.IO;
 using TMPro;
 
 public class MenuUIManager : MonoBehaviour
@@ -11,21 +10,13 @@ public class MenuUIManager : MonoBehaviour
 
     public TextMeshProUGUI playerName;    
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+                
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }      
-
     private void Awake()
-    {
+    {        
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -33,7 +24,6 @@ public class MenuUIManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-        
+        DontDestroyOnLoad(gameObject);        
     }
 }
