@@ -22,11 +22,12 @@ public class MainManager : MonoBehaviour
 
     public int highScore;
     public TextMeshProUGUI playerName;
+    public TextMeshProUGUI highScoreText;
 
     // Start is called before the first frame update
     void Start()
     {
-                
+        LoadHighScore();   
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -42,7 +43,7 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        playerName.text = $"{MenuUIManager.Instance.playerName.text}";
+        playerName.text = $"{MenuUIManager.Instance.playerName.text}";        
         MenuUIManager.Instance.playerName = playerName;
 
         //Epiteloussssss ivra to telia tixea to skato .text toses ores pou na men po epitelous ouffff
@@ -69,7 +70,8 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(1);
+                SaveHighScore();
+                SceneManager.LoadScene(1);               
             }
         }
         
@@ -93,13 +95,29 @@ public class MainManager : MonoBehaviour
 
     public void LoadHighScore()
     {
+        string path = Application.persistentDataPath + "/savefile.json";
 
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            highScore = data.highScore;
+        }
+
+        highScoreText.text = $"{highScore}";
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+
+        //Get Higher Score
+        if (highScore <= m_Points)
+        {
+            highScore = m_Points;
+        }        
     }
 
     public void GameOver()
